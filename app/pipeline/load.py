@@ -1,17 +1,22 @@
-"""modulo com todas as transformações necessárias para consolidar os dados de entrada."""
+import os  # biblioteca para manipular arquivos e pastas
 
-import os
+import pandas as pd
 
 
-def load_em_um_novo_excel(df, output_folder, output_file_name):
+def load_excel(data_frame: pd.DataFrame, output_path: str, file_name: str) -> str:
     """
-    Carga: Salva um DataFrame em um arquivo Excel.
+    receber um dataframe e salvar como excel
 
-    type: df: pd.DataFrame
+    args:
+    data_frame (pd.DataFrame): dataframe a ser salvo como excel
+    output_path (str): caminho onde o arquivo será salvo
+    file_name (str): nome do arquivo a ser salvo
+
+    return: "Arquivo salvo com sucesso"
+
     """
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
 
-    df.to_excel(
-        os.path.join(output_folder, output_file_name), index=False
-    )  # Retirado engine='openpyxl'
+    data_frame.to_excel(f"{output_path}/{file_name}.xlsx", index=False)
+    return "Arquivo salvo com sucesso"

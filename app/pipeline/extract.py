@@ -1,17 +1,31 @@
-"""modulo de extract necessárias para consolidar os dados de entrada."""
-import glob
-import os
+"""esse é o módulo de extração de dados."""
+
+import glob  # biblioteca para listar arquivos
+import os  # biblioteca para manipular arquivos e pastas
+from typing import List
+
 import pandas as pd
 
 
-def extract_excel(input_folder):
+def extract_from_excel(path: str) -> List[pd.DataFrame]:
     """
-    função para extrair dados de arquivos Excel.
+    função para ler os arquivos de
+    uma pasta data/input e retornar uma lista de dataframes
 
-    type: input_folder: str
+    args: input_path (str): caminho da pasta com os arquivos
+
+    return: lista de dataframes
     """
-    files = glob.glob(os.path.join(input_folder, "*.xlsx"))
-    if not files:
-        raise ValueError("No Excel files found in the specified folder")
-    all_data = [pd.read_excel(file) for file in files]
-    return all_data
+    all_files = glob.glob(os.path.join(path, "*.xlsx"))
+
+    data_frame_list = []
+    for file in all_files:
+        data = pd.read_excel(file)
+        data_frame_list.append(data)
+
+    return data_frame_list
+
+
+if __name__ == "__main__":
+    data_frame_list = extract_from_excel("data/input")
+    print(data_frame_list)
